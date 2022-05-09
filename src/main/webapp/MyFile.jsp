@@ -1,20 +1,19 @@
-
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 
-	<h3>¿À´ÃÀº jsp Ã¹¹øÂ° ³¯ÀÔ´Ï´Ù.</h3> <br><br>
+	<h3>ì˜¤ëŠ˜ì€ jsp ì²«ë²ˆì§¸ ë‚ ìž…ë‹ˆë‹¤.</h3> <br><br>
 
 
 	<%@page import="java.util.Date" %>
 	
-	¿À´ÃÀÇ ³¯Â¥´Â <%=new Date() %> 
+	ì˜¤ëŠ˜ì˜ ë‚ ì§œëŠ” <%=new Date() %> 
 	
 
 </body>
