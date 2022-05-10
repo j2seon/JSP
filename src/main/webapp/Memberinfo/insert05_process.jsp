@@ -15,25 +15,31 @@ include를 통해 해당 파일을 가져와서 이 안의 값들이 메모리�
 그러면 HttpServletRequest로 서블릿에 정보를 전달할 수 있다.
  -->
  
-<%@ include file = "dbconn_oracle.jsp" %>
+<%@ include file = "dbconn_oracle.jsp" %> 
 <% 
-	request.setCharacterEncoding("EUC-KR"); //form에서 넘긴 한글처리하기 위함.
+	request.setCharacterEncoding("UTF-8"); //form에서 넘긴 한글처리하기 위함.
 	String id = request.getParameter("id");
 	String password = request.getParameter("password");
 	String name =request.getParameter("name");
 	String email = request.getParameter("email");
 	
-	Statement stmt =null;	//Statment 객체 : SQL쿼리 구문을 담아서 실행하는 객체
+	PreparedStatement pstmt =null;	//Statment 객체 : SQL쿼리 구문을 담아서 실행하는 객체 ==>?를 인자로받을 수 있다.
 	String sql = null; //
 	
 	try{
-		sql ="INSERT INTO mbTbl ( idx, id, password, name, email ) Values (seq_mbTbl_idx.nextval, '" + id + "','"+password + "','" + name+"','" + email + "')";
+		sql ="INSERT INTO mbTbl ( idx, id, password, name, email ) Values (seq_mbTbl_idx.nextval,?,?,?,?)";
+		
 		/*
 		String sql2 =  String.format("insert into emp_copy(eno,ename,job,manager ,hiredate,salary,commission,dno) values('%s','%s','%s','%s','%s','%s','%s','%s')", eno,ename,job,manager,hiredate,salary,commission, dno);
 		*/
-		stmt = conn.createStatement(); //connection 객체를 통해서 statement 객체 생성
+		pstmt = conn.prepareStatement(sql); //PreparedStatement객체 생성시에 sqlㅣ
+		
 		//연결이 완료 됐다면 실행도구를 생성한다.
-		stmt.executeUpdate(sql); //statement 객체를 통해서 sql을 살행함.
+		pstmt.setString(1, id);
+		pstmt.setString(2, password);
+		pstmt.setString(3, name);
+		pstmt.setString(4, email);
+		pstmt.executeUpdate(sql); 
 			//stmt.executeUpdate(sql): Sql <==insert,update, delete문이 온다.
 			//stmt.executeQuery(sql) : sql<== select문이 오면서 결과를 Resultset 객체로 반환 ResultSet rs = st.executeQuery(sql);
 		out.println("테이블 삽입에 성공했습니다.");
@@ -47,8 +53,8 @@ include를 통해 해당 파일을 가져와서 이 안의 값들이 메모리�
 		//out.println(sql);
 
 	}finally{
-		if(stmt !=null)
-			stmt.close(); //자원반납을 위해 닫아준다
+		if(pstmt !=null)
+			pstmt.close(); //자원반납을 위해 닫아준다
 		if(conn!=null)
 			conn.close();
 	}

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%@page import = "java.sql.*" %>
@@ -22,7 +22,9 @@
 	// 드라이버를 로드하면 해당 인스턴스가 메모리에 잡히게 된다.
 	
 	conn = DriverManager.getConnection(url,"hr","hr"); // 드라이버 로드가 완료됐다면 연결 객체를 얻는다.(url,접속아이디,비번)
-
+	
+	//DriverManager 클래스의 getConnection(String url, String user, String password)
+	//메서드는 데이터베이스의 URL과 USER, Password를 입력을 해서 지정된 데이터베이스 URL에 연결을 시도 해주는 메서드이다.
 %>
 </body>
 </html>
@@ -41,5 +43,7 @@
 
 
 3.taglib
+
+
 
  -->

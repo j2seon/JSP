@@ -24,33 +24,46 @@ include를 통해 해당 파일을 가져와서 이 안의 값들이 메모리�
 	String email = request.getParameter("email");
 	
 	Statement stmt =null;	//Statment 객체 : SQL쿼리 구문을 담아서 실행하는 객체
-	String sql = null; //
+	ResultSet re = null; //select한 결과를 담는 객체 select한 레코드셋을 담고있다.
+	String sql = null; 
 	
 	try{
-		sql ="INSERT INTO mbTbl ( idx, id, password, name, email ) Values (seq_mbTbl_idx.nextval, '" + id + "','"+password + "','" + name+"','" + email + "')";
-		/*
-		String sql2 =  String.format("insert into emp_copy(eno,ename,job,manager ,hiredate,salary,commission,dno) values('%s','%s','%s','%s','%s','%s','%s','%s')", eno,ename,job,manager,hiredate,salary,commission, dno);
-		*/
-		stmt = conn.createStatement(); //connection 객체를 통해서 statement 객체 생성
-		//연결이 완료 됐다면 실행도구를 생성한다.
-		stmt.executeUpdate(sql); //statement 객체를 통해서 sql을 살행함.
-			//stmt.executeUpdate(sql): Sql <==insert,update, delete문이 온다.
-			//stmt.executeQuery(sql) : sql<== select문이 오면서 결과를 Resultset 객체로 반환 ResultSet rs = st.executeQuery(sql);
-		out.println("테이블 삽입에 성공했습니다.");
-		out.println("<p><p>");
-		//out.println(sql);
+		//form에서 넘긴 ID와 Password가 같으면 레코드 삭제 id(primary key)
+		sql = "SELECT id, password FROM mbTbl where id = '"+ id +"'";
+		stmt =conn.createStatement();
+		re=stmt.executeQuery(sql);
+		
+		if(re.next()){ //id가 존재할때 
+			//re의 결과 레코드를 변수에 할당함.
+			String rId = re.getString("id");
+			String rPass= re.getString("password");
+			
+			//패스워드가 일치하는지 확인.
+			if(password.equals(rPass)){
+				sql = "delete from mbTbl where id='"+id+"'";
+				stmt.executeUpdate(sql);
+				out.println("해당계정이 삭제되었습니다.");
 
+			}else{ //패스워드가 일치하지 않을 때
+				out.println("패스워드가 틀립니다.");
+			}
+			
+		}else{
+			out.println(id + "해당 아이디가 존재하지 않습니다.");
+		}
+		
+		
 		
 	}catch(Exception e){
-		out.println("mbTbl 테이블 삽입을 실패했습니다.");
 		out.println(e.getMessage());
-		//out.println(sql);
 
 	}finally{
-		if(stmt !=null)
-			stmt.close(); //자원반납을 위해 닫아준다
-		if(conn!=null)
+		if(conn !=null)
 			conn.close();
+		if(stmt!=null)
+			stmt.close();
+		if(re!=null)
+			re.close();
 	}
 	
 	//드라이버 로드 -> 드라이버 인스턴스가 메모리에 올라감 -> 
