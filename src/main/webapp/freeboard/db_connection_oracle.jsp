@@ -1,24 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="UTF-8"%>
+    pageEncoding="EUC-KR"%>
    <%@page import = "java.sql.*" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="EUC-KR">
 <title> Orcle DB Connection</title>
 </head>
 <body>
 <%
 
 
-	//ë³€ìˆ˜ì´ˆê¸°í™”
-	 Connection conn = null;		//DBë¥¼ ì—°ê²°í•˜ëŠ” ê°ì²´
+	//º¯¼öÃÊ±âÈ­
+	 Connection conn = null;		//DB¸¦ ¿¬°áÇÏ´Â °´Ã¼
 	 String driver ="oracle.jdbc.driver.OracleDriver";
-	 String url = "jdbc:oracle:thin:@localhost:1521:XE"; //Oracle Driver ì ‘ì†
-	 Boolean connect = false; //ì ‘ì†ì´ ìž˜ë˜ëŠ”ì§€ í™•ì¸ í•˜ëŠ” ë³€ìˆ˜
+	 String url = "jdbc:oracle:thin:@localhost:1521:XE"; //Oracle Driver Á¢¼Ó
+	 Boolean connect = false; //Á¢¼ÓÀÌ ÀßµÇ´ÂÁö È®ÀÎ ÇÏ´Â º¯¼ö
 	 
 	 try{
-		 Class.forName(driver); //ì˜¤ë¼í´ ë“œë¼ì´ë²„ ë¡œë“œ.
+		 Class.forName(driver); //¿À¶óÅ¬ µå¶óÀÌ¹ö ·Îµå.
 		 conn = DriverManager.getConnection(url,"HR2","1234");
 		 
 		 connect = true;
@@ -32,9 +32,9 @@
 <% 
 
 	if(connect == true){
-		out.println("ì˜¤ë¼í´ DBì— ìž˜ ì—°ê²°ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		out.println("¿À¶óÅ¬ DB¿¡ Àß ¿¬°áµÇ¾ú½À´Ï´Ù.");
 	}else{
-		out.println("ì˜¤ë¼í´ DBì—°ê²°ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
+		out.println("¿À¶óÅ¬ DB¿¬°á¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù.");
 	}
 
 

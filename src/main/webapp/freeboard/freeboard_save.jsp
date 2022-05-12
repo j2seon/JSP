@@ -1,34 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     
  <%@ page import ="java.sql.*, java.util.*,java.text.*"  %> 
- <% request.setCharacterEncoding("EUC-KR"); %>  <!-- ÇÑ±Û Ã³¸® --> 
+ <% request.setCharacterEncoding("UTF-8"); %>  <!-- í•œê¸€ ì²˜ë¦¬ --> 
  <%@ include file = "dbconn_oracle.jsp" %>
  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>form ÀÇ °ªÀ» ¹Ş¾Æ¼­ DataBase¿¡ °ªÀ» ³Ö¾îÁÖ´Â ÆÄÀÏ </title>
+<title>form ì˜ ê°’ì„ ë°›ì•„ì„œ DataBaseì— ê°’ì„ ë„£ì–´ì£¼ëŠ” íŒŒì¼ </title>
 </head>
 <body>
 
 
 <% 
-	//Æû¿¡¼­ ³Ñ±ä °ªÀ» ¹Ş¾Æ¼­ °¢ º¯¼ö¿¡ ÀúÀåÇÑ´Ù.
+	//í¼ì—ì„œ ë„˜ê¸´ ê°’ì„ ë°›ì•„ì„œ ê° ë³€ìˆ˜ì— ì €ì¥í•œë‹¤.
 	String na = request.getParameter("name");
 	String em = request.getParameter("email");
 	String sub = request.getParameter("subject");
 	String cont = request.getParameter("content");
 	String pw = request.getParameter("password");
 	
-	int id = 1; //DB¿¡ id ÄÃ·³¿¡ ÀúÀåÇÒ °ª.
-	int pos = 0;  //cont ¿¡ °ªÀÌ µé¾î¿Ã¶§ 
+	int id = 1; //DBì— id ì»¬ëŸ¼ì— ì €ì¥í•  ê°’.
+	int pos = 0;  //cont ì— ê°’ì´ ë“¤ì–´ì˜¬ë•Œ 
 	if(cont.length() == 1 ) {
 		cont = cont + " ";
      }
 	
-	//content(Text Area)¿¡ ¿£ÅÍ¸¦ Ã³¸®ÇØÁà¾ßÇÑ´Ù. Oracle DB¿¡ ÀúÀå½Ã¿¡ ¿£ÅÍ¿¡ °üÇÑ ³»¿ë
+	//content(Text Area)ì— ì—”í„°ë¥¼ ì²˜ë¦¬í•´ì¤˜ì•¼í•œë‹¤. Oracle DBì— ì €ì¥ì‹œì— ì—”í„°ì— ê´€í•œ ë‚´ìš©
 	while((pos = cont.indexOf("\'" , pos))!=-1){
 		String left = cont.substring(0,pos);
 		String right = cont.substring(pos , cont.length());
@@ -36,7 +36,7 @@
 		pos += 2;
 	}
 
-	//¿À´ÃÀÇ ³¯Â¥¸¦ Ã³¸®ÇÏ´Â ÇÔ¼ö 
+	//ì˜¤ëŠ˜ì˜ ë‚ ì§œë¥¼ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜ 
 	java.util.Date yymmdd = new java.util.Date(); //java.util.Date today = new java.util.Date();
 	SimpleDateFormat myformat = new SimpleDateFormat("yy-MM-d h:mm a ");
 	String ymd = myformat.format(yymmdd); //myformat.format(today);
@@ -44,21 +44,21 @@
 	String sql = null;
 	Statement st = null;
 	ResultSet rs = null;
-	int cnt = 0; // insert °¡ Àß µÇ¾ú´ÂÁö ¾Æ´ÑÁö È®ÀÎ ÇÏ´Â º¯¼ö 
+	int cnt = 0; // insert ê°€ ì˜ ë˜ì—ˆëŠ”ì§€ ì•„ë‹Œì§€ í™•ì¸ í•˜ëŠ” ë³€ìˆ˜ 
 	
  	try{
          
- 		//°ªÀ» ÀúÀåÇÏ±â Àü¿¡ ÃÖ½Å ±Û¹øÈ£ (max(id))¸¦ °¡Á®¿Í¼­ +1À» Àû¿ëÇÑ´Ù.
- 		//conn(Connection) : Auto commit;ÀÌ ÀÛµ¿µÈ´Ù
- 			//commitÀ» ¸í½ÃÇÏÁö ¾Ê¾Æµµ insert , update, delete ±¸¹®¿¡ ÀÚµ¿ Ä¿¹ÔÀÌ µÈ´Ù/
+ 		//ê°’ì„ ì €ì¥í•˜ê¸° ì „ì— ìµœì‹  ê¸€ë²ˆí˜¸ (max(id))ë¥¼ ê°€ì ¸ì™€ì„œ +1ì„ ì ìš©í•œë‹¤.
+ 		//conn(Connection) : Auto commit;ì´ ì‘ë™ëœë‹¤
+ 			//commitì„ ëª…ì‹œí•˜ì§€ ì•Šì•„ë„ insert , update, delete êµ¬ë¬¸ì— ìë™ ì»¤ë°‹ì´ ëœë‹¤/
  		st = conn.createStatement();
  		sql = "select max (id) from freeboard";
  		rs = st.executeQuery(sql);
  		
- 		if(!(rs.next())){ //rsÀÇ °ªÀÌ ºñ¾îÀÖÀ» ¶§
+ 		if(!(rs.next())){ //rsì˜ ê°’ì´ ë¹„ì–´ìˆì„ ë•Œ
  			id = 1 ;
- 		}else{	//rsÀÇ °ªÀÌ Á¸ÀçÇÒ¶§
- 			id = rs.getInt(1) + 1; //ÃÖ´ë°ª + 1
+ 		}else{	//rsì˜ ê°’ì´ ì¡´ì¬í• ë•Œ
+ 			id = rs.getInt(1) + 1; //ìµœëŒ€ê°’ + 1
  		}
  		
          sql = "Insert into freeboard (id, name, password, email, subject, ";
@@ -68,12 +68,12 @@
          sql = sql + "0,0,0)";
          
          
-      	cnt = st.executeUpdate(sql); //cnt>0 : insert ¼º°ø  st.executeUpdate(sql)ÀÌ Á¤¼ö °ªÀ» ¹İÈ¯ÇÔ.
+      	cnt = st.executeUpdate(sql); //cnt>0 : insert ì„±ê³µ  st.executeUpdate(sql)ì´ ì •ìˆ˜ ê°’ì„ ë°˜í™˜í•¨.
       	
       	if(cnt > 0){
-      		out.println("µ¥ÀÌÅÍ°¡ ¼º°øÀûÀ¸·Î ÀÔ·ÂµÇ¾ú½À´Ï´Ù");
+      		out.println("ë°ì´í„°ê°€ ì„±ê³µì ìœ¼ë¡œ ì…ë ¥ë˜ì—ˆìŠµë‹ˆë‹¤");
       	}else{
-      		out.println("µ¥ÀÌÅÍ°¡ ÀÔ·ÂµÇÁö ¾Ê¾Ò½À´Ï´Ù");
+      		out.println("ë°ì´í„°ê°€ ì…ë ¥ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤");
       	}
       	
       }catch (Exception e){out.println(e.getMessage());
