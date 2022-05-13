@@ -1,58 +1,19 @@
 <%@page import="java.lang.annotation.Retention"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ page language="java" import="java.sql.*,java.util.*" %> 
-<% request.setCharacterEncoding("EUC-KR"); %>  <!-- 한글 처리 -->     
-<HTML>
-<HEAD><TITLE>게시판</TITLE>
-<link href="freeboard.css" rel="stylesheet" type="text/css">
-<SCRIPT language="javascript">
- function check(){
-  with(document.msgsearch){
-   if(sval.value.length == 0){
-    alert("검색어를 입력해 주세요!!");
-    sval.focus();
-    return false;
-   }	
-   document.msgsearch.submit();
-  }
- }
- function rimgchg(p1,p2) {
-  if (p2==1) 
-   document.images[p1].src= "image/open.gif";
-  else
-   document.images[p1].src= "image/arrow.gif";
-  }
-
- function imgchg(p1,p2) {
-  if (p2==1) 
-   document.images[p1].src= "image/open.gif";
-  else
-   document.images[p1].src= "image/close.gif";
- }
-</SCRIPT>
-</HEAD>
-<BODY>
+<% request.setCharacterEncoding("UTF-8"); %>  <!-- 한글 처리 -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
 <%@ include file = "dbconn_oracle.jsp" %>
-<P>
-<P align=center><FONT color=#0000ff face=굴림 size=3><STRONG>자유 게시판</STRONG></FONT></P> 
-<P>
-<CENTER>
- <TABLE border=0 width=600 cellpadding=4 cellspacing=0>
-  <tr align="center"> 
-   <td colspan="5" height="1" bgcolor="#1F4F8F"></td>
-  </tr>
-  <tr align="center" bgcolor="#87E8FF"> 
-   <td width="42" bgcolor="#DFEDFF"><font size="2">번호</font></td>
-   <td width="340" bgcolor="#DFEDFF"><font size="2">제목</font></td>
-   <td width="84" bgcolor="#DFEDFF"><font size="2">등록자</font></td>
-   <td width="78" bgcolor="#DFEDFF"><font size="2">날짜</font></td>
-   <td width="49" bgcolor="#DFEDFF"><font size="2">조회</font></td>
-  </tr>
-  <tr align="center"> 
-   <td colspan="5" bgcolor="#1F4F8F" height="1"></td>
-  </tr>
- <%  //Vector은 : 멀티쓰레드 환경에서 사용한다, 모든 메소드가 동기화 처리 되어있다.
+
+<%  //Vector은 : 멀티쓰레드 환경에서 사용한다, 모든 메소드가 동기화 처리 되어있다.
  
  
   Vector name = new Vector(); 	//DB에 Name 값만 저장하는 벡터 
@@ -137,8 +98,7 @@
 
  try {
   st = conn.createStatement();
-  String sql = "select * from freeboard order by" ;
-  sql = sql + " masterid desc, replaynum, step, id" ;
+  String sql = "select * from  order by" ;
   rs = st.executeQuery(sql);
   
   //out.println(sql);
@@ -149,17 +109,11 @@
    out.println("게시판에 올린 글이 없습니다");
   } else {
    do {
-	  //DataBase의 값을 가져와서 각각의 vector에 저장.
-    keyid.addElement(new Integer(rs.getInt("id"))); 
-    		//rs의 id 컬럼의 값을 가져와서 vector에 저장.
     name.addElement(rs.getString("name"));
     email.addElement(rs.getString("email"));
     String idate = rs.getString("inputdate");
-    idate = idate.substring(0,8); //0~8자까지만 
     inputdate.addElement(idate);
     subject.addElement(rs.getString("subject"));
-    rcount.addElement(new Integer(rs.getInt("readcount")));
-    step.addElement(new Integer(rs.getInt("step")));
      
    }while(rs.next());
    
@@ -284,35 +238,62 @@
   }
   out.println ("전체 글수 :"+totalrows); 
  %>
-<!--<TABLE border=0 width=600 cellpadding=0 cellspacing=0>
- <TR>
-  <TD align=right valign=bottom>
-   <A href="freeboard_write.htm"><img src="image/write.gif" width="66" height="21" border="0"></A>
-   </TD>
-  </TR>
- </TABLE>-->
+	  		out.println("<table width='600' cellspacing='0' cellpadding='2' align='center'>");
+			 out.println("<tr>");
+			 out.println("<td height='22'>&nbsp;</td></tr>");
+			 out.println("<tr align='center'>");
+			 out.println("<td height='1' bgcolor='#1F4F8F'></td>");
+			 out.println("</tr>");
+			 out.println("<tr align='center' bgcolor='#DFEDFF'>");
+			 out.println("<td class='button' bgcolor='#DFEDFF'>"); 
+			// out.println("<div align='left'><font size='2'>"+rs.getString("subject") + "</div> </td>");
+			 out.println("</tr>");
+			 out.println("<tr align='center' bgcolor='#FFFFFF'>");
+		  	 out.println("<td align='center' bgcolor='#F4F4F4'>"); 
+		  	 out.println("<table width='100%' border='0' cellpadding='0' cellspacing='4' height='1'>");
+			 out.println("<tr bgcolor='#F4F4F4'>");
+			 out.println("<td width='13%' height='7'></td>");
+			// out.println("<td width='51%' height='7'>글쓴이 : "+ em +"</td>");
+			 out.println("<td width='25%' height='7'></td>");
+			 out.println("<td width='11%' height='7'></td>");
+			 out.println("</tr>");
+			 out.println("<tr bgcolor='#F4F4F4'>");
+			 out.println("<td width='13%'></td>");
+			// out.println("<td width='51%'>작성일 : " + rs.getString("inputdate") + "</td>");
+			// out.println("<td width='25%'>조회 : "+(rs.getInt("readcount")+1)+"</td>");
+			 out.println("<td width='11%'></td>");
+			 out.println("</tr>");
+			 out.println("</table>");
+			 out.println("</td>");
+			 out.println("</tr>");
+			 out.println("<tr align='center'>");
+			 out.println("<td bgcolor='#1F4F8F' height='1'></td>");
+			 out.println("</tr>");
+			 out.println("<tr align='center'>");
+			 out.println("<td style='padding:10 0 0 0'>");
+			 out.println("<div align='left'><br>");
+			// out.println("<font size='3' color='#333333'><PRE>"+rs.getString("content") + "</PRE></div>");
+			 out.println("<br>");
+			 out.println("</td>");
+			 out.println("</tr>");
+			 out.println("<tr align='center'>");
+			 out.println("<td class='button' height='1'></td>");
+			 out.println("</tr>");
+			 out.println("<tr align='center'>");
+			 out.println("<td bgcolor='#1F4F8F' height='1'></td>");
+			 out.println("</tr>");
+			 out.println("</table>");
 
-<FORM method="post" name="msgsearch" action="freeboard_search.jsp">
-<TABLE border=0 width=600 cellpadding=0 cellspacing=0>
- <TR>
-  <TD align=right width="241"> 
-   <SELECT name=stype >
-    <OPTION value=1 >이름
-    <OPTION value=2 >제목
-    <OPTION value=3 >내용
-    <OPTION value=4 >이름+제목
-    <OPTION value=5 >이름+내용
-    <OPTION value=6 >제목+내용
-    <OPTION value=7 >이름+제목+내용
-   </SELECT>
-  </TD>
-  <TD width="127" align="center">
-   <INPUT type=text size="17" name="sval" >
-  </TD>
-  <TD width="115">&nbsp;<a href="#" onClick="check();"><img src="image/serach.gif" border="0" align='absmiddle'></A></TD>
-  <TD align=right valign=bottom width="117"><A href="freeboard_write.htm"><img src="image/write.gif" border="0"></TD>
- </TR>
-</TABLE>
-</FORM>
-</BODY>
-</HTML>
+	  
+	 
+		  
+	  }
+%>
+
+
+
+		
+
+
+</body>
+</html>

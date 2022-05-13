@@ -95,7 +95,7 @@
 			   
 %>
 				
-				  <table width="600" border="0" cellpadding="0" cellspacing="5">
+		  <table width="600" border="0" cellpadding="0" cellspacing="5">
 		   <tr> 
 		    <td align="right" width="450"><A href="freeboard_list.jsp?go=<%=request.getParameter("page") %>"> 
 		     <img src="image/list.jpg" border=0></a></td>
