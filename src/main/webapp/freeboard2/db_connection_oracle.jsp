@@ -19,7 +19,7 @@
 	 
 	 try{
 		 Class.forName(driver); //오라클 드라이버 로드.
-		 conn = DriverManager.getConnection(url,"h2","1234");
+		 conn = DriverManager.getConnection(url,"HR2","1234");
 		 
 		 connect = true;
 		 

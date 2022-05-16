@@ -170,11 +170,11 @@
    startrow = (where-1) * maxrows;		//현재페이지의 시작 레코드 번호
    endrow = startrow+maxrows-1  ;		//현재 페이지의 마지막 레코드 번호
    
-   //out.println("======= max row : 3일때 ======== ");
-   //out.println("총 레코드 수 : " + totalrows + "<p>");
-   //out.println("현재 페이지 : " + where + "<p>");
-   //out.println("시작 레코드 : " + startrow + "<p>");
-   //out.println("마지막 레코드 : " + endrow + "<p>");
+   out.println("======= max row : 3일때 ======== ");
+   out.println("총 레코드 수 : " + totalrows + "<p>");
+   out.println("현재 페이지 : " + where + "<p>");
+   out.println("시작 레코드 : " + startrow + "<p>");
+   out.println("마지막 레코드 : " + endrow + "<p>");
    
    
    
@@ -188,7 +188,7 @@
    
    if (endpage > totalpages) 
     endpage=totalpages;
-
+ 
    //현재 페이지에서 시작레코드 ,마지막 래코드까지 순환하면서 출력
    for(int j = startrow; j<=endrow; j++) {
     String temp=(String)email.elementAt(j); 	//email vector에서 email 주소를 가지고 온다
